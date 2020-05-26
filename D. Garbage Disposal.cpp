@@ -2,7 +2,6 @@
 #define mod 1000000007
 #define ll long long 
 #define f(j) for(ll i=0;i<j;i++)
-#define clearbuff cin.ignore(numeric_limits<streamsize>::max(),'\n'); 
 #define pb(i) push_back(i)
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL);
 using namespace std;    
@@ -12,30 +11,32 @@ int main(){
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	// faster
-	int t;
-	cin>>t;
-	while(t--){
-		int n,m;
-		cin>>n>>m;
-		string s;
-		clearbuff
-		cin>>s;
-		int mark[s.size()+1]={0},temp;
-		f(m){
-			cin>>temp;
-			mark[temp]++;
+	 faster
+	ll n,k;
+	cin>>n>>k;
+	ll a[n];
+	f(n)	cin>>a[i];
+	ll ans=0,pre=0,temp;
+	f(n-1){
+		temp=(pre+a[i])%k;
+		if(temp==0){
+			ans+=(pre+a[i])/k;
+			pre=0;
 		}
-		int hash[26]={0};
-		m++;
-		f(s.size()){
-			m-=mark[i];
-			hash[s[i]-'a']+=m;
+		else if(temp<=a[i]){
+			ans+=(pre+a[i])/k;
+			pre=temp;	
 		}
-		f(26)
-			cout<<hash[i]<<" ";
-		cout<<"\n";
-		
+		else{
+			ans+=(pre+a[i])/k;
+			pre=0;
+			ans++;
+		}
 	}	
+	temp=(pre+a[n-1]);
+	ans+=temp/k;
+	if(temp%k!=0)
+		ans++;
+	cout<<ans<<"\n";
 return 0;	
 }
