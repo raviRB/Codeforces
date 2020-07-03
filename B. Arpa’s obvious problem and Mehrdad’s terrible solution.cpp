@@ -6,37 +6,31 @@
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL);
 using namespace std;    
 typedef vector<vector<long long> > matrix; 
-
 int main(){
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
 	// faster
-	int n,m,a,b;
-	cin>>n>>m;
-	std::vector<int> v[n+1];
-	f(m){
-		cin>>a>>b;
-		v[a].pb(b);
-		v[b].pb(a);
-	}
-	std::vector<int> ans;
-	int visited[n+1]={0},cur;
-	priority_queue <int, vector<int>, greater<int>> q; 
-	q.push(1);
-	visited[1]++;
-	while(!q.empty()){
-		cur = q.top();
-		q.pop();
-		ans.pb(cur);
-		for(int j : v[cur])
-			if(!visited[j]){
-				q.push(j);
-				visited[j]++;
+	ll n,x;
+	cin>>n>>x;
+	ll hash[100001]={0},temp;
+	f(n){
+		cin>>temp;
+		hash[temp]++;
+	}	
+	set<pair<ll,ll>> ans;
+	ll result=0;
+	f(100001){
+		temp = i^x;
+		if(temp<100001 && hash[i] && hash[temp]){
+			if(ans.find({min(i,temp),max(i,temp)})==ans.end()){
+				ans.insert({min(i,temp),max(i,temp)});
+				if(temp==i)	result+=(hash[i]*(hash[i]-1))/2;
+				else result += hash[i]*hash[temp];
 			}
+		}
 	}
-	for(int j : ans)	cout<<j<<" ";
-
+	cout<<result<<"\n";
 return 0;	
 }

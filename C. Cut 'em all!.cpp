@@ -6,37 +6,38 @@
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL);
 using namespace std;    
 typedef vector<vector<long long> > matrix; 
-
+std::vector<int> edge[100001];
+int ans =0,flag=0,visited[100001];
+int dfs(int node){
+	visited[node]++;
+	int temp=1;
+	for(int i : edge[node])
+		if(!visited[i])
+			temp+=dfs(i);
+	if(temp%2)
+		return temp;
+	//cout<<temp<<" "<<node<<"\n";
+	ans++;
+	return 0;
+}
 int main(){
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
 	// faster
-	int n,m,a,b;
-	cin>>n>>m;
-	std::vector<int> v[n+1];
-	f(m){
-		cin>>a>>b;
-		v[a].pb(b);
-		v[b].pb(a);
+	int n,u,v;
+	cin>>n;
+	f(n){
+		cin>>u>>v;
+		edge[u].pb(v);
+		edge[v].pb(u);
 	}
-	std::vector<int> ans;
-	int visited[n+1]={0},cur;
-	priority_queue <int, vector<int>, greater<int>> q; 
-	q.push(1);
-	visited[1]++;
-	while(!q.empty()){
-		cur = q.top();
-		q.pop();
-		ans.pb(cur);
-		for(int j : v[cur])
-			if(!visited[j]){
-				q.push(j);
-				visited[j]++;
-			}
+	if(n%2){
+		cout<<"-1\n";
+		return 0;
 	}
-	for(int j : ans)	cout<<j<<" ";
-
+	dfs(1);
+	cout<<ans-1<<"\n";
 return 0;	
 }
